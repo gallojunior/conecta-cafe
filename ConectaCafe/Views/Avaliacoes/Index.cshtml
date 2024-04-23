@@ -1,0 +1,87 @@
+@model IEnumerable<ConectaCafe.Models.Avaliacao>
+@{
+    ViewData["Title"] = "Avaliações";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div
+                    class="bg-gradient-warning shadow-dark border-radius-lg pt-4 pb-3 d-flex align-items-center justify-content-between">
+                    <h5 class="text-white text-capitalize ps-3 m-0">@ViewData["Title"]</h5>
+                    <a asp-action="Create" class="text-white text-capitalize ps-3 me-3 d-flex align-items-center">
+                        <i class="material-icons me-2">add</i> Adicionar
+                    </a>
+                </div>
+            </div>
+            <div class="card-body pb-2">
+                <div class="table-responsive p-0">
+                    <table id="dataTable" class="table align-items-center justify-content-center mb-0 w-100">
+                        <thead class="p-0">
+                            <tr>
+                                <th class="p-0 text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                    Nome da Pessoa
+                                </th>
+                                <th class="p-0 text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                    Data da Avaliação
+                                </th>
+                                <th class="p-0 text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                    Nota
+                                </th>
+                                <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">
+                                    Ações
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="text-dark text-sm">
+                                        @Html.DisplayFor(modelItem => item.Pessoa)
+                                    </td>
+                                    <td class="text-dark text-sm">
+                                        @Html.DisplayFor(modelItem => item.DataAvaliacao)
+                                    </td>
+                                    <td class="text-dark text-sm">
+                                        @Html.DisplayFor(modelItem => item.Nota)
+                                    </td>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" title="Alterar">
+                                            <i class="material-icons me-2">edit</i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes">
+                                            <i class="material-icons me-2">search</i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" title="Excluir">
+                                            <i class="material-icons me-2">delete</i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        let datatable = new DataTable('#dataTable', {
+            language: {
+                url: '../../lib/datatables/pt-BR.json'
+            },
+            initComplete: function(settings, json) {
+                document.querySelector('.dt-length').classList.add('text-xs');
+                document.querySelector('.dt-search').classList.add('text-xs');
+                document.querySelector('.dt-info').classList.add('text-xs');
+                document.querySelector('.dt-paging').classList.add('text-xs');
+            }
+        });
+    </script>
+}
