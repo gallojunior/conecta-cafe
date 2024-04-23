@@ -1,4 +1,4 @@
-let elements = document.querySelectorAll('input[type="text"], select, textarea');
+let elements = document.querySelectorAll('input[type="text"], input[type="date"], select, textarea');
 elements.forEach((elem, index, array) => {
     let placeholder = elem.placeholder;
     if (placeholder != "") {
@@ -14,4 +14,6 @@ elements.forEach((elem, index, array) => {
     if (elem.value != "") {
         elem.parentElement.classList.add('is-filled');
     }
-})
+
+    console.log(elem);
+});

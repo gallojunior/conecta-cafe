@@ -3,13 +3,7 @@
     ViewData["Title"] = "Avaliações";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-<style>
-    input[type="date"]::before {
-        content: attr(placeholder) !important;
-        position: absolute  !important;
-        color: #999999  !important;
-    }
-</style>
+
 <div class="row">
     <div class="col">
         <div class="card my-4">
@@ -85,8 +79,5 @@
                     }
                 });
         })
-
-        document.getElementById("DataAvaliacao").style += " content: ''";
-
     </script>
 }
