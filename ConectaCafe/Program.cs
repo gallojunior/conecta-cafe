@@ -6,14 +6,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-string conexao = builder.Configuration
-    .GetConnectionString("CafeDb");
+// string conexao = builder.Configuration.GetConnectionString("CafeDb");
+// builder.Services.AddDbContext<AppDbContext>(
+//     opt => opt.UseSqlServer(conexao)
+// );
+
+string conexao = builder.Configuration.GetConnectionString("CafeMemory");
 builder.Services.AddDbContext<AppDbContext>(
-    opt => opt.UseSqlServer(conexao)
+    opt => opt.UseInMemoryDatabase(conexao)
 );
 
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope()) {
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

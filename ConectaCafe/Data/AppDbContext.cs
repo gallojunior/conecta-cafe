@@ -1,4 +1,5 @@
 using ConectaCafe.Models;
+using CozaStore.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConectaCafe.Data;
@@ -21,6 +22,7 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        AppDbSeed seed = new(builder);
 
         // FluentAPI
         #region muitos para muitos do BlogTag

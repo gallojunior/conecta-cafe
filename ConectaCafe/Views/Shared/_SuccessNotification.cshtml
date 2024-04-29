@@ -1,0 +1,25 @@
+<div class="toast-container position-absolute pt-6 pe-3 top-0 end-0" id="toastPlacement">
+  <div class="toast fade hide p-2 bg-white shadown-success" role="alert" aria-live="assertive" id="successToast"
+    aria-atomic="true">
+    <div class="toast-header bg-gradient-success border-0 rounded">
+      <i class="material-icons text-white me-2">
+        check
+      </i>
+      <span class="me-auto font-weight-bold text-white">CozaStore </span>
+      <i class="fas fa-times text-md ms-3 cursor-pointer text-white" data-bs-dismiss="toast" aria-label="Close"></i>
+    </div>
+    <hr class="horizontal light m-0">
+    <div class="toast-body">
+      <span class="font-weight-bold text-dark">@TempData["Success"]</span>
+    </div>
+  </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+  <script>
+    var myToastEl = document.getElementById('successToast');
+    var myToast = bootstrap.Toast.getOrCreateInstance(myToastEl);
+    myToast.show();
+  </script>
+}

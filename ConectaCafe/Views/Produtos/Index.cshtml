@@ -76,11 +76,13 @@
             language: {
                 url: '../../lib/datatables/pt-BR.json'
             },
-            initComplete: function(settings, json) {
+            initComplete: function (settings, json) {
                 document.querySelector('.dt-length').classList.add('text-xs');
                 document.querySelector('.dt-search').classList.add('text-xs');
                 document.querySelector('.dt-info').classList.add('text-xs');
                 document.querySelector('.dt-paging').classList.add('text-xs');
+				document.querySelector('label[for="dt-length-0"]').classList.add('text-xs');
+                document.querySelector('label[for="dt-search-0"]').classList.add('text-xs');
             }
         });
     </script>

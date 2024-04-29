@@ -1,6 +1,6 @@
-@model ConectaCafe.Models.Categoria
+@model ConectaCafe.Models.Tag
 @{
-    ViewData["Title"] = "Categorias";
+    ViewData["Title"] = "Tags";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -23,7 +23,7 @@
                     </div>
                     <div class="mb-3">
                         <form asp-action="Delete">
-                            <h5 class="text-danger">Confirma a exclusão desta Categoria?</h5>
+                            <h5 class="text-danger">Confirma a exclusão desta Tag?</h5>
                             <input type="hidden" asp-for="Id" />
                             <input type="submit" value="Excluir" class="btn btn-danger me-2" />
                             <a asp-action="Index" class="btn btn-info">Voltar</a>

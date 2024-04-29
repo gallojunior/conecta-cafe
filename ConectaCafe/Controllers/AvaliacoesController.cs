@@ -10,91 +10,86 @@ using ConectaCafe.Models;
 
 namespace ConectaCafe.Controllers
 {
-    public class CategoriasController : Controller
+    public class AvaliacoesController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CategoriasController(AppDbContext context)
+        public AvaliacoesController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categorias
+        // GET: Avaliacoes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categorias.ToListAsync());
+              return View(await _context.Avaliacoes.ToListAsync());
         }
 
-        // GET: Categorias/Details/5
+        // GET: Avaliacoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categorias == null)
+            if (id == null || _context.Avaliacoes == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var avaliacao = await _context.Avaliacoes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (categoria == null)
+            if (avaliacao == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(avaliacao);
         }
 
-        // GET: Categorias/Create
+        // GET: Avaliacoes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categorias/Create
+        // POST: Avaliacoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome")] Categoria categoria)
+        public async Task<IActionResult> Create([Bind("Id,Pessoa,Texto,Nota,Foto,DataAvaliacao")] Avaliacao avaliacao)
         {
             if (ModelState.IsValid)
             {
-                if (CategoriaExists(categoria))
-                {
-                    _context.Add(categoria);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = $"Categoria '{categoria.Nome}' cadastrada com Sucesso!";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                    ModelState.AddModelError(string.Empty, "Nome já cadastrado!");
+                _context.Add(avaliacao);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = $"Avaliação cadastrada com Sucesso!";
+                return RedirectToAction(nameof(Index));
             }
-            return View(categoria);
+            return View(avaliacao);
         }
 
-        // GET: Categorias/Edit/5
+        // GET: Avaliacoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categorias == null)
+            if (id == null || _context.Avaliacoes == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria == null)
+            var avaliacao = await _context.Avaliacoes.FindAsync(id);
+            if (avaliacao == null)
             {
                 return NotFound();
             }
-            return View(categoria);
+            return View(avaliacao);
         }
 
-        // POST: Categorias/Edit/5
+        // POST: Avaliacoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Categoria categoria)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Pessoa,Texto,Nota,Foto,DataAvaliacao")] Avaliacao avaliacao)
         {
-            if (id != categoria.Id)
+            if (id != avaliacao.Id)
             {
                 return NotFound();
             }
@@ -103,13 +98,13 @@ namespace ConectaCafe.Controllers
             {
                 try
                 {
-                    _context.Update(categoria);
-                    TempData["Success"] = $"Categoria '{categoria.Nome}' alterada com Sucesso!";
+                    _context.Update(avaliacao);
+                    TempData["Success"] = $"Avaliação alterada com Sucesso!";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriaExists(categoria))
+                    if (!AvaliacaoExists(avaliacao.Id))
                     {
                         return NotFound();
                     }
@@ -120,53 +115,50 @@ namespace ConectaCafe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(categoria);
+            return View(avaliacao);
         }
 
-        // GET: Categorias/Delete/5
+        // GET: Avaliacoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categorias == null)
+            if (id == null || _context.Avaliacoes == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var avaliacao = await _context.Avaliacoes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (categoria == null)
+            if (avaliacao == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(avaliacao);
         }
 
-        // POST: Categorias/Delete/5
+        // POST: Avaliacoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categorias == null)
+            if (_context.Avaliacoes == null)
             {
-                return Problem("Entity set 'AppDbContext.Categorias'  is null.");
+                return Problem("Entity set 'AppDbContext.Avaliacoes'  is null.");
             }
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria != null)
+            var avaliacao = await _context.Avaliacoes.FindAsync(id);
+            if (avaliacao != null)
             {
-                _context.Categorias.Remove(categoria);
+                _context.Avaliacoes.Remove(avaliacao);
             }
             
             await _context.SaveChangesAsync();
-            TempData["Success"] = $"Categoria '{categoria.Nome}' excluída com Sucesso!";
+            TempData["Success"] = $"Avaliação excluída com Sucesso!";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoriaExists(Categoria categoria)
+        private bool AvaliacaoExists(int id)
         {
-           if (categoria.Id == 0)
-                return _context.Categorias.Any(e => e.Nome == categoria.Nome);
-            else
-                return _context.Categorias.Any(e => e.Id == categoria.Id);
+          return _context.Avaliacoes.Any(e => e.Id == id);
         }
     }
 }

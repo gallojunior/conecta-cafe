@@ -14,10 +14,9 @@
                 </div>
             </div>
             <div class="card-body pb-2">
-                <form asp-action="Create">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form asp-action="Create" method="post">
                     <div class="col-12 mb-3">
-                        <div class="input-group input-group-outline mb-1">
+                        <div class="input-group input-group-outline">
                             <label asp-for="Nome" class="form-label"></label>
                             <input asp-for="Nome" class="form-control" />
                         </div>

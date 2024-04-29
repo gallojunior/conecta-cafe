@@ -79,7 +79,7 @@ namespace ConectaCafe.Controllers
                     produto.Foto = "\\img\\produtos\\" + filename;
                     await _context.SaveChangesAsync();
                 }
-
+                TempData["Success"] = $"Produto '{produto.Nome}' cadastrado com Sucesso!";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nome", produto.CategoriaId);
@@ -144,6 +144,7 @@ namespace ConectaCafe.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = $"Produto '{produto.Nome}' alterado com Sucesso!";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nome", produto.CategoriaId);
@@ -185,6 +186,7 @@ namespace ConectaCafe.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["Success"] = $"Produto '{produto.Nome}' excluído com Sucesso!";
             return RedirectToAction(nameof(Index));
         }
 

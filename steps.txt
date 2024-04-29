@@ -3,6 +3,7 @@ dotnet new mvc -o ConectaCafe
 dotnet add package Microsoft.EntityFrameworkCore --version 7.0.17
 dotnet add package Microsoft.EntityFrameworkCore.Tools --version 7.0.17
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.17
+dotnet add package Microsoft.EntityFrameworkCore.InMemory --version 7.0.17
 
 dotnet tool install -g dotnet-aspnet-codegenerator --version 7.0.1
 
@@ -11,6 +12,13 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 7.
 
 dotnet-aspnet-codegenerator controller -name CategoriasController -m Categoria -dc AppDbContext -outDir Controllers -udl
 
-dotnet-aspnet-codegenerator controller -name ProdutosController -m Produto -dc 
-AppDbContext -outDir Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml"
+dotnet-aspnet-codegenerator controller -name ProdutosController -m Produto -dc AppDbContext -outDir Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml"
+
+dotnet-aspnet-codegenerator controller -name BlogsController -m Blog -dc AppDbContext -outDir Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml"
+
+dotnet-aspnet-codegenerator controller -name AvaliacoesController -m Avaliacao -dc AppDbContext -outDir Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml"
+
+dotnet-aspnet-codegenerator controller -name TagsController -m Tag -dc AppDbContext -outDir Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml"
+
+dotnet-aspnet-codegenerator controller -name UsuariosController -m Produto -dc AppDbContext -outDir Controllers -l "~/Views/Shared/_LayoutAdmin.cshtml"
 

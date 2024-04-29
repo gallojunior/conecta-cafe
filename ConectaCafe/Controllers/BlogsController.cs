@@ -10,91 +10,86 @@ using ConectaCafe.Models;
 
 namespace ConectaCafe.Controllers
 {
-    public class CategoriasController : Controller
+    public class BlogsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public CategoriasController(AppDbContext context)
+        public BlogsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Categorias
+        // GET: Blogs
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Categorias.ToListAsync());
+              return View(await _context.Blogs.ToListAsync());
         }
 
-        // GET: Categorias/Details/5
+        // GET: Blogs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Categorias == null)
+            if (id == null || _context.Blogs == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var blog = await _context.Blogs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (categoria == null)
+            if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(blog);
         }
 
-        // GET: Categorias/Create
+        // GET: Blogs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Categorias/Create
+        // POST: Blogs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome")] Categoria categoria)
+        public async Task<IActionResult> Create([Bind("Id,Titulo,Texto,Foto,DataBlog")] Blog blog)
         {
             if (ModelState.IsValid)
             {
-                if (CategoriaExists(categoria))
-                {
-                    _context.Add(categoria);
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = $"Categoria '{categoria.Nome}' cadastrada com Sucesso!";
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                    ModelState.AddModelError(string.Empty, "Nome já cadastrado!");
+                _context.Add(blog);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = $"Blog cadastrado com Sucesso!";
+                return RedirectToAction(nameof(Index));
             }
-            return View(categoria);
+            return View(blog);
         }
 
-        // GET: Categorias/Edit/5
+        // GET: Blogs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Categorias == null)
+            if (id == null || _context.Blogs == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria == null)
+            var blog = await _context.Blogs.FindAsync(id);
+            if (blog == null)
             {
                 return NotFound();
             }
-            return View(categoria);
+            return View(blog);
         }
 
-        // POST: Categorias/Edit/5
+        // POST: Blogs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome")] Categoria categoria)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Texto,Foto,DataBlog")] Blog blog)
         {
-            if (id != categoria.Id)
+            if (id != blog.Id)
             {
                 return NotFound();
             }
@@ -103,13 +98,13 @@ namespace ConectaCafe.Controllers
             {
                 try
                 {
-                    _context.Update(categoria);
-                    TempData["Success"] = $"Categoria '{categoria.Nome}' alterada com Sucesso!";
+                    _context.Update(blog);
+                    TempData["Success"] = $"Blog alterado com Sucesso!";
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriaExists(categoria))
+                    if (!BlogExists(blog.Id))
                     {
                         return NotFound();
                     }
@@ -120,53 +115,50 @@ namespace ConectaCafe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(categoria);
+            return View(blog);
         }
 
-        // GET: Categorias/Delete/5
+        // GET: Blogs/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Categorias == null)
+            if (id == null || _context.Blogs == null)
             {
                 return NotFound();
             }
 
-            var categoria = await _context.Categorias
+            var blog = await _context.Blogs
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (categoria == null)
+            if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(blog);
         }
 
-        // POST: Categorias/Delete/5
+        // POST: Blogs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Categorias == null)
+            if (_context.Blogs == null)
             {
-                return Problem("Entity set 'AppDbContext.Categorias'  is null.");
+                return Problem("Entity set 'AppDbContext.Blogs'  is null.");
             }
-            var categoria = await _context.Categorias.FindAsync(id);
-            if (categoria != null)
+            var blog = await _context.Blogs.FindAsync(id);
+            if (blog != null)
             {
-                _context.Categorias.Remove(categoria);
+                _context.Blogs.Remove(blog);
             }
             
             await _context.SaveChangesAsync();
-            TempData["Success"] = $"Categoria '{categoria.Nome}' excluída com Sucesso!";
+            TempData["Success"] = $"Blog excluído com Sucesso!";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CategoriaExists(Categoria categoria)
+        private bool BlogExists(int id)
         {
-           if (categoria.Id == 0)
-                return _context.Categorias.Any(e => e.Nome == categoria.Nome);
-            else
-                return _context.Categorias.Any(e => e.Id == categoria.Id);
+          return _context.Blogs.Any(e => e.Id == id);
         }
     }
 }

@@ -1,6 +1,6 @@
-@model ConectaCafe.Models.Categoria
+@model ConectaCafe.Models.Tag
 @{
-    ViewData["Title"] = "Categorias";
+    ViewData["Title"] = "Tags";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
@@ -10,27 +10,23 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-warning shadow-dark border-radius-lg pt-4 pb-3">
                     <h5 class="text-white text-capitalize ps-3 mb-0">@ViewData["Title"]</h5>
-                    <h6 class="text-white text-capitalize ps-3">Excluir</h6>
+                    <h6 class="text-white text-capitalize ps-3">Detalhes</h6>
                 </div>
             </div>
             <div class="card-body pb-2">
                 <div class="row">
                     <div class="col-12 mb-3">
-                        <div class="input-group input-group-outline">
+                        <div class="input-group input-group-outline mb-1">
                             <label asp-for="Nome" class="form-label"></label>
-                            <input asp-for="Nome" class="form-control" readonly />
+                            <input asp-for="Nome" class="form-control" readonly/>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <form asp-action="Delete">
-                            <h5 class="text-danger">Confirma a exclusão desta Categoria?</h5>
-                            <input type="hidden" asp-for="Id" />
-                            <input type="submit" value="Excluir" class="btn btn-danger me-2" />
-                            <a asp-action="Index" class="btn btn-info">Voltar</a>
-                        </form>
-                    </div>
+                        <a asp-action="Edit" asp-route-id="@Model.Id"
+                            class="btn btn-warning me-2">Alterar</a>
+                        <a asp-action="Index" class="btn btn-info">Voltar</a>
+                    </div> 
                 </div>
-
             </div>
         </div>
     </div>
