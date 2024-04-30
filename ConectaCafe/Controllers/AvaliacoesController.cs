@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +9,18 @@ namespace ConectaCafe.Controllers
     public class AvaliacoesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _host;
 
-        public AvaliacoesController(AppDbContext context)
+        public AvaliacoesController(AppDbContext context, IWebHostEnvironment host)
         {
             _context = context;
+            _host = host;
         }
 
         // GET: Avaliacoes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Avaliacoes.ToListAsync());
+            return View(await _context.Avaliacoes.ToListAsync());
         }
 
         // GET: Avaliacoes/Details/5
@@ -54,13 +52,27 @@ namespace ConectaCafe.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Pessoa,Texto,Nota,Foto,DataAvaliacao")] Avaliacao avaliacao)
+        public async Task<IActionResult> Create([Bind("Id,Pessoa,Texto,Nota,DataAvaliacao,Foto")] Avaliacao avaliacao, IFormFile Arquivo)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(avaliacao);
                 await _context.SaveChangesAsync();
                 TempData["Success"] = $"Avaliação cadastrada com Sucesso!";
+
+                if (Arquivo != null)
+                {
+                    string filename = avaliacao.Id + Path.GetExtension(Arquivo.FileName);
+                    string caminho = Path.Combine(_host.WebRootPath, "img\\avaliacoes");
+                    string novoArquivo = Path.Combine(caminho, filename);
+                    using (var stream = new FileStream(novoArquivo, FileMode.Create))
+                    {
+                        Arquivo.CopyTo(stream);
+                    }
+                    avaliacao.Foto = "\\img\\avaliacoes\\" + filename;
+                    await _context.SaveChangesAsync();
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(avaliacao);
@@ -87,7 +99,7 @@ namespace ConectaCafe.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Pessoa,Texto,Nota,Foto,DataAvaliacao")] Avaliacao avaliacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Pessoa,Texto,Nota,DataAvaliacao,Foto")] Avaliacao avaliacao, IFormFile Arquivo)
         {
             if (id != avaliacao.Id)
             {
@@ -100,6 +112,19 @@ namespace ConectaCafe.Controllers
                 {
                     _context.Update(avaliacao);
                     TempData["Success"] = $"Avaliação alterada com Sucesso!";
+                    if (Arquivo != null)
+                    {
+                        string filename = avaliacao.Id + Path.GetExtension(Arquivo.FileName);
+                        string caminho = Path.Combine(_host.WebRootPath, "img\\avaliacoes");
+                        string novoArquivo = Path.Combine(caminho, filename);
+                        using (var stream = new FileStream(novoArquivo, FileMode.Create))
+                        {
+                            Arquivo.CopyTo(stream);
+                        }
+                        avaliacao.Foto = "\\img\\avaliacoes\\" + filename;
+                        await _context.SaveChangesAsync();
+                    }
+                    _context.Update(avaliacao);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
