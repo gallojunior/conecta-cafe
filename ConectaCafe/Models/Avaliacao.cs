@@ -23,9 +23,6 @@ public class Avaliacao
     [Column(TypeName = "decimal(1,0)")]
     public decimal Nota { get; set; } = 5;
 
-    [StringLength(200)]
-    public string Foto { get; set; }
-
     [Display(Name = "Data da Avaliação")]
     [DataType(DataType.Date)]
     public DateTime DataAvaliacao { get; set; } = DateTime.Now;

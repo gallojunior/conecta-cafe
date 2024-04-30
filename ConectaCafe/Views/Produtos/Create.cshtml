@@ -72,14 +72,13 @@
         function changeImage() {
             document.querySelector("input[type='file']").click();
         }
-        window.addEventListener('load', function () {
-            document.querySelector("input[type='file']")
-                .addEventListener('change', function () {
+
+            document.querySelector("input[type='file']").addEventListener('change', function () {
                     if (this.files && this.files[0]) {
                         var img = document.getElementById("Preview");
                         img.src = URL.createObjectURL(this.files[0]);
                     }
                 });
-        })
+
     </script>
 }

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ConectaCafe.Data;
 using ConectaCafe.Models;
@@ -58,7 +57,6 @@ namespace ConectaCafe.Controllers
             {
                 _context.Add(avaliacao);
                 await _context.SaveChangesAsync();
-                TempData["Success"] = $"Avaliação cadastrada com Sucesso!";
 
                 if (Arquivo != null)
                 {
@@ -72,7 +70,7 @@ namespace ConectaCafe.Controllers
                     avaliacao.Foto = "\\img\\avaliacoes\\" + filename;
                     await _context.SaveChangesAsync();
                 }
-
+                TempData["Success"] = $"Avaliação cadastrada com Sucesso!";
                 return RedirectToAction(nameof(Index));
             }
             return View(avaliacao);
@@ -110,8 +108,6 @@ namespace ConectaCafe.Controllers
             {
                 try
                 {
-                    _context.Update(avaliacao);
-                    TempData["Success"] = $"Avaliação alterada com Sucesso!";
                     if (Arquivo != null)
                     {
                         string filename = avaliacao.Id + Path.GetExtension(Arquivo.FileName);
@@ -140,6 +136,7 @@ namespace ConectaCafe.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            TempData["Success"] = $"Avaliação alterada com Sucesso!";
             return View(avaliacao);
         }
 
